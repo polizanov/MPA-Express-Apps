@@ -1,17 +1,18 @@
 <main>
         <h1>Welcome to SoftUni Wiki!</h1>
+        {{#if err}}
+        <section id="notifications">
+                <p>{{err.message}}</p>
+        </section>
+        {{/if}}
         <section>
                 <h2>Login</h2>
                 <div class="spacer">
-                        <form>
-                                {{#if err}}
-                                <span class="error">{{err.message}}</span>
-                                <br>
-                                {{/if}}
+                        <form method="POST">
                                 <label>Username:</label>
-                                <input type="text">
+                                <input type="text" name="username">
                                 <label>Password:</label>
-                                <input type="password">
+                                <input type="password" name="password">
                                 <input type="submit" value="Login">
                         </form>
                 </div>

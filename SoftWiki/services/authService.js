@@ -18,7 +18,7 @@ async function register(registerData) {
         throw { message: "Password should be at least 8 characters long" }
     }
 
-    if (registerData.repeatPassword !== registerData.password) {
+    if (registerData.rePass !== registerData.password) {
         throw { message: "Password and Repeat Password must be identical!" }
     }
 
