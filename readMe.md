@@ -1,5 +1,4 @@
 # Multi Page Applications
-Idea, creation and editing system.
 
 ## Functionality
 * Implemented authentication and authorization.
