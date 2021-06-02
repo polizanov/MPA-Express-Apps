@@ -11,7 +11,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         minLength: 8,
-    }
+    },
+    articles: [{
+        type: mongoose.Types.ObjectId,
+        ref: "Article"
+    }]
 })
 
 module.exports = mongoose.model("User", userSchema);
