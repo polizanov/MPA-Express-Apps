@@ -34,9 +34,19 @@ async function getLeastThree() {
 }
 
 
+function getArticleById(id, user="") {
+    return Article.findOne({ _id: id }).lean()
+        .then(data => Object.assign(data, {
+            isOwner: data.author == user,
+            description: data.description.split("\r\n\r\n")
+        }))
+}
+
+
 module.exports = {
     create,
     getLeastThree,
+    getArticleById,
 }
 
 

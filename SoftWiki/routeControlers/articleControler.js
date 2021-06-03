@@ -23,9 +23,19 @@ router.post("/create", isAuth, async (req, res) => {
     }
 })
 
-router.get("/details/:articleId", (req, res) => {
-    console.log(req.params.articleId)
-    res.render("article/details", { title: "Details" })
+router.get("/details/:articleId", async (req, res, next) => {
+    try {
+        let data;
+        if (!res.locals.user){
+            data = await articleService.getArticleById(req.params.articleId)
+        } else {
+            data = await articleService.getArticleById(req.params.articleId, res.locals.user._id)
+        }
+        res.render("article/details", { title: "Details", data})
+    } catch (err){
+        console.log(err)
+        next();
+    }
 })
 
 module.exports = router;
