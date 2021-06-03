@@ -25,7 +25,7 @@ function create(data, user) {
 
 async function getLeastThree() {
     return Article.find({})
-        .sort({ creationDate: 1 })
+        .sort({ creationDate: -1 })
         .lean()
         .then(obj => obj
             .map(x => Object.assign(x, { description: x.description.split(" ").slice(0, 50).join(" ") + "..." }))
@@ -34,7 +34,7 @@ async function getLeastThree() {
 }
 
 
-function getArticleById(id, user="") {
+function getArticleById(id, user = "") {
     return Article.findOne({ _id: id }).lean()
         .then(data => Object.assign(data, {
             isOwner: data.author == user,
@@ -42,11 +42,35 @@ function getArticleById(id, user="") {
         }))
 }
 
+function getArticleForEdit(id) {
+    return Article.findOne({ _id: id }).lean();
+}
+
+function getAll() {
+    return Article.find({}).lean();
+}
+
+function editArticle(id, data) {
+    if (data.description.trim().length < 20) {
+        throw { message: "Description should be at least 20 characters long" };
+    }
+
+    return Article.findByIdAndUpdate(id, { description: data.description })
+}
+
+function deleteArticle(id){
+    return Article.deleteOne({_id: id});
+}
+
 
 module.exports = {
     create,
     getLeastThree,
     getArticleById,
+    getAll,
+    getArticleForEdit,
+    editArticle,
+    deleteArticle,
 }
 
 

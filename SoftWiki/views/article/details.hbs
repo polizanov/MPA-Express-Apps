@@ -5,11 +5,11 @@
             
             <div class="controls">
                 {{#if isAuthenticated}}
-                    <a href="edit.html">[edit]</a>
+                    <a href="/article/edit/{{data._id}}">[edit]</a>
                 {{/if}}
 
                 {{#if data.isOwner}}
-                    <a href="history.html">[delete]</a>
+                    <a href="/article/delete/{{data._id}}">[delete]</a>
                 {{/if}}
             </div>
         </h2>
