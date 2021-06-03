@@ -23,7 +23,7 @@ router.post("/create", isAuth, async (req, res) => {
     }
 })
 
-router.get("/details/articleId", (req, res) => {
+router.get("/details/:articleId", (req, res) => {
     console.log(req.params.articleId)
     res.render("article/details", { title: "Details" })
 })

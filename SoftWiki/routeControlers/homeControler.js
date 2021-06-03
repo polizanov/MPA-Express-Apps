@@ -1,8 +1,16 @@
 const { Router } = require("express");
 const router = Router();
 
-router.get("/", (req, res) => {
-    res.render("home/home", { title: "Home Page" });
+const articleService = require("../services/articleService")
+
+router.get("/", async (req, res, next) => {
+    try {
+        let data = await articleService.getLeastThree();
+        res.render("home/home", { title: "Home Page", data });
+    } catch (err){
+        console.log(err)
+        next();
+    }
 })
 
 

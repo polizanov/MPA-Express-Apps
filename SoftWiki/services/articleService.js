@@ -23,9 +23,20 @@ function create(data, user) {
     return articleObj.save()
 }
 
+async function getLeastThree() {
+    return Article.find({})
+        .sort({ creationDate: 1 })
+        .lean()
+        .then(obj => obj
+            .map(x => Object.assign(x, { description: x.description.split(" ").slice(0, 50).join(" ") + "..." }))
+            .slice(0, 3)
+        )
+}
+
 
 module.exports = {
     create,
+    getLeastThree,
 }
 
 
