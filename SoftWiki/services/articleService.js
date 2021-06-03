@@ -62,6 +62,12 @@ function deleteArticle(id){
     return Article.deleteOne({_id: id});
 }
 
+function search(data){
+    return Article.find({}).lean()
+        .then(x => x.filter(x => x.title.toLocaleLowerCase().includes(data.search.toLocaleLowerCase())))
+        
+}
+
 
 module.exports = {
     create,
@@ -71,6 +77,7 @@ module.exports = {
     getArticleForEdit,
     editArticle,
     deleteArticle,
+    search,
 }
 
 

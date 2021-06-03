@@ -8,8 +8,8 @@ const articleService = require("../services/articleService")
 router.get("/all", async (req, res, next) => {
     try {
         let data = await articleService.getAll();
-        res.render("article/allArticles", { title: "All Articles", data});
-    } catch (err){
+        res.render("article/allArticles", { title: "All Articles", data });
+    } catch (err) {
         next();
     }
 })
@@ -45,7 +45,7 @@ router.get("/edit/:articleId", isAuth, async (req, res, next) => {
     try {
         let data = await articleService.getArticleForEdit(req.params.articleId)
         res.render("article/edit", { title: "Edit", data })
-    } catch (err){
+    } catch (err) {
         next();
     }
 })
@@ -54,7 +54,7 @@ router.post("/edit/:articleId", isAuth, async (req, res) => {
     try {
         await articleService.editArticle(req.params.articleId, req.body);
         res.redirect(`/article/details/${req.params.articleId}`);
-    } catch (err){
+    } catch (err) {
         res.render("article/edit", { title: "Edit", err })
     }
 })
@@ -63,6 +63,15 @@ router.get("/delete/:articleId", isAuth, async (req, res, next) => {
     try {
         await articleService.deleteArticle(req.params.articleId);
         res.redirect(`/`);
+    } catch {
+        next()
+    }
+})
+
+router.get("/search", async (req, res, next) => {
+    try {
+        let data = await articleService.search(req.query);
+        res.render("article/allArticles", { title: "All Articles", data })
     } catch {
         next()
     }
