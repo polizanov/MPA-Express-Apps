@@ -14,13 +14,17 @@ router.post("/create", async (req, res) => {
         res.redirect("/")
     } catch (err) {
         console.log(err)
-        res.render("crud/create", { title: "Create", err})
+        res.render("crud/create", { title: "Create", err })
     }
 })
 
-router.get("/details/:hotelId", (req, res) => {
-    console.log(req.params.hotelId)
-    res.redirect("/")
+router.get("/details/:hotelId", async (req, res, next) => {
+    try {
+        let data = await hotelService.getHotelById(req.params.hotelId, res.locals.user._id);
+        res.render("crud/details", { title: "Details", data })
+    } catch {
+        next();
+    }
 })
 
 module.exports = router;
