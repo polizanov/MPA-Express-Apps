@@ -4,25 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../../static/css/site.css">
 </head>
 
 <body>
 
     <div id="container">
+        <div>
+            {{#if err}}
+                <div class="notification errorBox">
+                    <span>{{err.message}}</span>
+                </div>
+            {{/if}}
+            {{!-- <div class="notification loadingBox">
+                Loading …
+            </div>
+            <div class="notification infoBox">
+                <span>Info</span>
+            </div>
+            <div class="notification errorBox">
+                <span>Error</span>
+            </div> --}}
+        </div>
 
-        <nav>
-            <div class="left-container">
-                <ul>
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Add +</a></li>
-                </ul>
-            </div>
-            <div class="right-container">
-                <a href="" class="log-out">{{name}}</a>
-                <a href="" class="log-out">Logout</a>
-            </div>
-        </nav>
+        {{#if isAuthenticated}}
+        {{>authNav}}
+        {{else}}
+        {{>guestNav}}
+        {{/if}}
+
         {{{body}}}
 
 

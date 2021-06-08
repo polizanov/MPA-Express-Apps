@@ -5,7 +5,7 @@ const { SALT_ROUNDS, JWT_LOGIN_SECRET } = require("../config");
 
 
 async function register(registerData) {
-    if (registerData.username == "" || registerData.password == "") {
+    if (registerData.email == "" || registerData.username == "" || registerData.password == "") {
         throw { message: "All fields are requred" }
     }
 
@@ -18,7 +18,7 @@ async function register(registerData) {
         throw { message: "Password should be at least 8 characters long" }
     }
 
-    if (registerData.repeatPassword !== registerData.password) {
+    if (registerData.rePassword !== registerData.password) {
         throw { message: "Password and Repeat Password must be identical!" }
     }
 
@@ -30,7 +30,7 @@ async function register(registerData) {
 
     const salt = bcrypt.genSaltSync(SALT_ROUNDS);
     const hash = bcrypt.hashSync(registerData.password.trim(), salt);
-    const userObj = new User({username: registerData.username.trim(), password: hash});
+    const userObj = new User({ email: registerData.email.trim(), username: registerData.username.trim(), password: hash});
     return userObj.save()
 }
 

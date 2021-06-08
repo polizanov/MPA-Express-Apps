@@ -16,6 +16,7 @@ router.post("/register", isGuest, async (req, res) => {
         await authService.register(req.body);
         res.redirect("/auth/login");
     } catch (err) {
+        console.log(err)
         res.render("auth/register", { title: "Register", err });
     }
 })
@@ -30,6 +31,7 @@ router.post("/login", isGuest, async (req, res) => {
         res.cookie(LOGIN_COOKIE_NAME, token, { httpOnly: true });
         res.redirect("/");
     } catch (err) {
+        console.log(err)
         res.render("auth/login", { title: "Login", err })
     }
 })
