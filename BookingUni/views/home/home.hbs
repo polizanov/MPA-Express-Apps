@@ -1,5 +1,17 @@
 <section id="viewCatalog" class="background-img">
+
+    {{#if data}}
     <div class="added-hotels">
+        {{#each data}}
+        {{>curHotel}}
+        {{/each}}
+    </div>
+    {{else}}
+    <div class="guest">
+        There are no Hotels found...
+    </div>
+    {{/if}}
+    {{!-- <div class="added-hotels">
         <a href="" class="added-hotel">
             <img src="https://image.freepik.com/free-vector/flat-hotel-building_23-2148162501.jpg" alt=""
                 class="picture-added-hotel">
@@ -19,7 +31,7 @@
             <span>Free rooms: 15</span>
         </a>
     </div>
-    <!-- <div class="guest">
-                There are no Hotels found...
-            </div> -->
+    <div class="guest">
+        There are no Hotels found...
+    </div> --}}
 </section>

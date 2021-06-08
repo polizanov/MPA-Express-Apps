@@ -23,7 +23,11 @@ const hotelSchema = new mongoose.Schema({
     usersBooked: [{
         type: mongoose.Types.ObjectId,
         ref: "User"
-    }]
+    }],
+    ownerId: {
+        type: String,
+        required: true,
+    }
 })
 
-module.expotrs = mongoose.model("Hotel", hotelSchema)
+module.exports = mongoose.model("Hotel", hotelSchema)

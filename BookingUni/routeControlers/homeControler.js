@@ -1,8 +1,15 @@
 const { Router } = require("express");
 const router = Router();
 
-router.get("/", (req, res) => {
-    res.render("home/home", { title: "Home Page" });
+const hotelService = require("../services/hotelServices")
+
+router.get("/", async (req, res, next) => {
+    try {
+        let data = await hotelService.getAll();
+        res.render("home/home", { title: "Home Page", data });
+    } catch {
+        next();
+    }
 })
 
 
