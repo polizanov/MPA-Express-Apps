@@ -6,12 +6,12 @@ async function create(data, userId) {
         throw { message: "All fields are requred" }
     }
 
-    if (data.title < 4) {
-        throw { message: "Title should be at least 4 characters" }
+    if (data.name < 4) {
+        throw { message: "Name should be at least 4 characters" }
     }
 
-    if (data.name < 4) {
-        throw { message: "Description should be at least 20 characters" }
+    if (data.city < 3) {
+        throw { message: "City should be at least 3 characters" }
     }
 
     if (!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")) {
@@ -62,12 +62,12 @@ function editHotel(data, id) {
         throw { message: "All fields are requred" }
     }
 
-    if (data.title < 4) {
-        throw { message: "Title should be at least 4 characters" }
+    if (data.name < 4) {
+        throw { message: "Name should be at least 4 characters" }
     }
 
-    if (data.name < 4) {
-        throw { message: "Description should be at least 20 characters" }
+    if (data.city < 3) {
+        throw { message: "City should be at least 3 characters" }
     }
 
     if (!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")) {

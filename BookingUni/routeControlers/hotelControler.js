@@ -51,6 +51,7 @@ router.post("/edit/:hotelId", async (req, res) => {
 router.get("/delete/:hotelId", async (req, res, next) => {
     try {
         await hotelService.deleteHotel(req.params.hotelId);
+        res.redirect("/");
     } catch {
         next()
     }

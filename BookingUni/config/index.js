@@ -4,4 +4,5 @@ module.exports = {
     "JWT_LOGIN_SECRET": "THIS IS LOGIN SECRET",
     "LOGIN_COOKIE_NAME": "SESSION",
     "DB_LINK": "mongodb://localhost/bookingUni",
+    "LETTERS_AND_DIGITS_PATTERN": /^[a-zA-Z\d]+$/,
 }

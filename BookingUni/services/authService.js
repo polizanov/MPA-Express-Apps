@@ -1,7 +1,7 @@
 const User = require("../schemes/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
-const { SALT_ROUNDS, JWT_LOGIN_SECRET } = require("../config");
+const { SALT_ROUNDS, JWT_LOGIN_SECRET, LETTERS_AND_DIGITS_PATTERN } = require("../config");
 
 
 async function register(registerData) {
@@ -13,9 +13,12 @@ async function register(registerData) {
         throw { message: "Username should be at least 5 characters long!" }
     }
 
+    if(!LETTERS_AND_DIGITS_PATTERN.test(registerData.email)){
+        throw { message: "Email should consist only with English letters and digits!" }
+    }
 
-    if (registerData.password.length < 8) {
-        throw { message: "Password should be at least 8 characters long" }
+    if (registerData.password.length < 5 || !LETTERS_AND_DIGITS_PATTERN.test(registerData.password)) {
+        throw { message: "Password should be at least 5 characters long, and consist only with English letters and digits!" }
     }
 
     if (registerData.rePassword !== registerData.password) {
@@ -44,8 +47,8 @@ async function login(loginData){
     }
 
 
-    if (loginData.password.length < 8) {
-        throw { message: "Password should be at least 8 characters long" }
+    if (loginData.password.length < 5 || !LETTERS_AND_DIGITS_PATTERN.test(loginData.password)) {
+        throw { message: "Password should be at least 5 characters long, and consist only with English letters and digits!" }
     }
 
     let user = await User.findOne({ username: loginData.username });
