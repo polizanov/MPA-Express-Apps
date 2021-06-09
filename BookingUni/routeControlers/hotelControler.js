@@ -68,7 +68,6 @@ router.get("/profile/:profileId", async (req, res, next) => {
         let data = await hotelService.getProfile(res.locals.user._id);
         res.render("home/profile", {title: "Profile", data});
     } catch (err) {
-        console.log(err);
         next()
     }
 })
