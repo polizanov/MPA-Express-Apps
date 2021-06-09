@@ -27,4 +27,12 @@ router.get("/details/:hotelId", async (req, res, next) => {
     }
 })
 
+router.get("/delete/:hotelId", async (req, res, next) => {
+    try {
+        await hotelService.deleteHotel(req.params.hotelId);
+    } catch {
+        next()
+    }
+})
+
 module.exports = router;

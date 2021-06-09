@@ -44,8 +44,13 @@ function getHotelById(id, userId) {
         .map(x => Object.assign(x, { isAuthor: x.ownerId == userId }))
 }
 
+function deleteHotel(id) {
+    return Hotel.deleteOne({ _id: id });
+}
+
 module.exports = {
     create,
     getAll,
-    getHotelById
+    getHotelById,
+    deleteHotel
 }
