@@ -36,7 +36,7 @@ async function create(data, userId) {
 }
 
 async function getAll() {
-    let data = await  Hotel.find({}).lean();
+    let data = await Hotel.find({}).lean();
 
     return data.sort((a, b) => b.freeRooms - a.freeRooms)
 }
@@ -112,11 +112,22 @@ async function bookHotel(userId, hotelId) {
     ])
 }
 
+async function getProfile(id) {
+    let string = [];
+    let data = await User.findOne({ _id: id }).populate("bookedHotels").lean();
+    data.bookedHotels.forEach(e => string.push(e.name))
+
+    data = Object.assign(data, { reservations: string.join(", ") });
+
+    return data;
+}
+
 module.exports = {
     create,
     getAll,
     getHotelById,
     deleteHotel,
     editHotel,
-    bookHotel
+    bookHotel,
+    getProfile,
 }

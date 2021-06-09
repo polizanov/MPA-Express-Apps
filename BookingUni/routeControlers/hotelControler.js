@@ -13,7 +13,6 @@ router.post("/create", async (req, res) => {
         await hotelService.create(req.body, res.locals.user._id)
         res.redirect("/")
     } catch (err) {
-        console.log(err)
         res.render("crud/create", { title: "Create", err })
     }
 })
@@ -21,8 +20,6 @@ router.post("/create", async (req, res) => {
 router.get("/details/:hotelId", async (req, res, next) => {
     try {
         let data = await hotelService.getHotelById(req.params.hotelId, res.locals.user._id);
-        console.log(data);
-        console.log(res.locals.user._id);
         res.render("crud/details", { title: "Details", data })
     } catch {
         next();
@@ -61,9 +58,18 @@ router.get("/book/:hotelId", async (req, res, next) => {
     try {
         await hotelService.bookHotel(res.locals.user._id, req.params.hotelId);
         res.redirect(`/hotel/details/${req.params.hotelId}`);
-    } catch (err){
-        console.log(err);
+    } catch (err) {
         next();
+    }
+})
+
+router.get("/profile/:profileId", async (req, res, next) => {
+    try {
+        let data = await hotelService.getProfile(res.locals.user._id);
+        res.render("home/profile", {title: "Profile", data});
+    } catch (err) {
+        console.log(err);
+        next()
     }
 })
 

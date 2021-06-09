@@ -6,7 +6,6 @@ const hotelService = require("../services/hotelServices")
 router.get("/", async (req, res, next) => {
     try {
         let data = await hotelService.getAll();
-        console.log(data)
         res.render("home/home", { title: "Home Page", data });
     } catch (err){
         console.log(err)
