@@ -35,8 +35,10 @@ async function create(data, userId) {
     return hotelObj.save()
 }
 
-function getAll() {
-    return Hotel.find({}).lean();
+async function getAll() {
+    let data = await  Hotel.find({}).lean();
+
+    return data.sort((a, b) => b.freeRooms - a.freeRooms)
 }
 
 async function getHotelById(id, userId) {
