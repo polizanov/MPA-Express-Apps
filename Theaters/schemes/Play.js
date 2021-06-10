@@ -26,7 +26,11 @@ const playSchema = mongoose.Schema({
     usersLiked: [{
         type: mongoose.Types.ObjectId,
         ref: "User"
-    }]
+    }],
+    creator: {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+    }
 })
 
 module.exports = mongoose.model("Play", playSchema);
