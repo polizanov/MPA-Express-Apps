@@ -5,15 +5,15 @@ function create(data, userId) {
         throw { message: "All fields are requred" }
     }
 
-    if(data.title < 4){
+    if (data.title < 4) {
         throw { message: "Title should be at least 4 characters" }
     }
 
-    if(data.description < 4){
+    if (data.description < 4) {
         throw { message: "Description should be at least 4 characters" }
     }
 
-    if(!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")){
+    if (!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")) {
         throw { message: "ImageUrl should be starts with http or https" }
     }
 
@@ -33,6 +33,20 @@ function create(data, userId) {
     return playObj.save()
 }
 
+function getAll(userId = "") {
+    return Play.find({}).lean().sort({ createdAt: -1 })
+        .then(x => x.filter(x => {
+            if (x.creator == userId) {
+                return true;
+            } else {
+                return x.isPublic == true;
+            }
+        })
+    )
+
+}
+
 module.exports = {
     create,
+    getAll,
 }

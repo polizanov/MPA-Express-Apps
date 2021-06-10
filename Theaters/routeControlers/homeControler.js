@@ -1,9 +1,17 @@
 const { Router } = require("express");
 const router = Router();
 
-router.get("/", (req, res) => {
+const playServices = require("../services/playService");
+
+router.get("/", async (req, res) => {
     try {
-        res.render("home/home", { title: "Home Page" });
+        let data;
+        if(res.locals.user){
+            data = await playServices.getAll(res.locals.user._id);
+        } else {
+            data = await playServices.getAll();
+        }
+        res.render("home/home", { title: "Home Page", data});
     } catch (err) {
         console.log(err)
     }

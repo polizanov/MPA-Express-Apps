@@ -15,8 +15,17 @@
             {{#if isAuthenticated}}
                 {{>actions}}
             {{/if}}
+
+        
         <div class="theaters-container">
-            <div>
+
+            {{#each data}}
+                {{>curPlay}}
+            {{else}}
+                <h4>No plays yet...</h4>
+            {{/each}}
+
+            {{!-- <div>
                 <div class="home-image">
                     <img src="https://media.timeout.com/images/103727744/380/285/image.jpg" alt="Card image cap">
                 </div>
@@ -66,9 +75,9 @@
                         <span class="likes">6 likes</span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <!-- <h4>No plays yet...</h4> -->
+            
         </div>
     </section>
 
