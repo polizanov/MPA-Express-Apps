@@ -24,7 +24,7 @@ router.get("/details/:playId", async (req, res, next) => {
     try {
         let data = await playService.getById(req.params.playId, res.locals.user._id);
         res.render("play/details", { title: "Details", data });
-    } catch (err){
+    } catch (err) {
         next();
     }
 })
@@ -33,7 +33,7 @@ router.get("/edit/:playId", async (req, res, next) => {
     try {
         let data = await playService.getById(req.params.playId, res.locals.user._id);
         res.render("play/edit", { title: "Edit", data });
-    } catch (err){
+    } catch (err) {
         next();
     }
 })
@@ -61,6 +61,17 @@ router.get("/like/:playId", async (req, res, next) => {
         await playService.like(req.params.playId, res.locals.user._id);
         res.redirect(`/play/details/${req.params.playId}`);
     } catch (err) {
+        next();
+    }
+})
+
+router.get("/sortbylikes", async (req, res, next) => {
+    try {
+        let data = await playService.sortByLikes(res.locals.user._id, res.locals.isAuthenticated)
+        console.log(data)
+        res.render("home/home", { title: "Home", data })
+    } catch (err){
+        console.log(err)
         next();
     }
 })

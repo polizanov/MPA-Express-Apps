@@ -1,5 +1,5 @@
 const Play = require('../schemes/Play');
-const { LETTERS_AND_DIGITS_PATTERN } = require("../config")
+
 
 function create(data, userId) {
     if (data.title == "" || data.description == "" || data.imageUrl == "") {
@@ -110,6 +110,16 @@ async function getAllForGuest() {
     return data
 }
 
+function sortByLikes(userId, isAuthenticated) {
+    return Play.find({}).lean().sort({ createdAt: -1 })
+        .then(x => x.filter(x => {
+            if (x.creator == userId) {
+                return true;
+            } else {
+                return x.isPublic == true;
+            }
+        }).map(x => Object.assign(x, { isAuthenticated })).sort((a, b) => b.usersLiked.length - a.usersLiked.length));
+}
 
 module.exports = {
     create,
@@ -118,5 +128,6 @@ module.exports = {
     edit,
     deleteTeather,
     like,
-    getAllForGuest
+    getAllForGuest,
+    sortByLikes,
 }
