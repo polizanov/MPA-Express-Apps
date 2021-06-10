@@ -13,13 +13,13 @@
             <p>{{data.description}}</p>
             <div class="buttons">
                 {{#if data.isOwner}}
-                    <a class="btn delete" href="">Delete</a>
+                    <a class="btn delete" href="/play/delete/{{data._id}}">Delete</a>
                     <a class="btn edit" href="/play/edit/{{data._id}}">Edit</a>
                 {{else}}
                     {{#if isLiked}}
                         <span class="liked">You have already liked this play!</span>
                     {{else}}
-                        <a class="btn like" href="">Like</a>
+                        <a class="btn like" href="/play/like/{{data._id}}">Like</a>
                     {{/if}}
                 {{/if}}
             </div>

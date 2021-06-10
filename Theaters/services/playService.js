@@ -61,7 +61,7 @@ async function getById(id, userId) {
     return data;
 }
 
-function edit(id, data){
+function edit(id, data) {
     if (data.title == "" || data.description == "" || data.imageUrl == "") {
         throw { message: "All fields are requred" }
     }
@@ -87,14 +87,17 @@ function edit(id, data){
         isPublic,
     }
 
-
-    return Play.updateOne({_id: id}, dataObj)
+    return Play.updateOne({ _id: id }, dataObj)
 }
 
+function deleteTeather(id) {
+    return Play.deleteOne({ _id: id });
+}
 
 module.exports = {
     create,
     getAll,
     getById,
-    edit
+    edit,
+    deleteTeather
 }

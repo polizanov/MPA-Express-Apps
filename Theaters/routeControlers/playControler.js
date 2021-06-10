@@ -47,4 +47,13 @@ router.post("/edit/:playId", async (req, res) => {
     }
 })
 
+router.get("/delete/:playId", async (req, res, next) => {
+    try {
+        await playService.deleteTeather(req.params.playId);
+        res.redirect("/");
+    } catch (err) {
+        next();
+    }
+})
+
 module.exports = router;
