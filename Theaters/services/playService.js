@@ -33,7 +33,7 @@ function create(data, userId) {
     return playObj.save()
 }
 
-function getAll(userId = "") {
+function getAll(userId = "", isAuthenticated) {
     return Play.find({}).lean().sort({ createdAt: -1 })
         .then(x => x.filter(x => {
             if (x.creator == userId) {
@@ -41,7 +41,7 @@ function getAll(userId = "") {
             } else {
                 return x.isPublic == true;
             }
-        }))
+        }).map(x => Object.assign(x, { isAuthenticated })));
 
 }
 
@@ -92,10 +92,21 @@ function deleteTeather(id) {
     return Play.deleteOne({ _id: id });
 }
 
-async function like(playId, userId){
-    let data = await Play.findOne({_id: playId});
+async function like(playId, userId) {
+    let data = await Play.findOne({ _id: playId });
     data.usersLiked.push(userId);
-    return Play.updateOne({_id: playId}, data);
+    return Play.updateOne({ _id: playId }, data);
+}
+
+async function getAllForGuest() {
+    let data = await Play.find({}).lean();
+
+    data = data
+        .sort((a, b) => b.usersLiked.length - a.usersLiked.length)
+        .filter(x => x.isPublic == true)
+        .slice(0, 3)
+
+    return data
 }
 
 
@@ -105,5 +116,6 @@ module.exports = {
     getById,
     edit,
     deleteTeather,
-    like
+    like,
+    getAllForGuest
 }

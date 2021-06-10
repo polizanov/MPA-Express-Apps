@@ -12,19 +12,19 @@
             quis cupidatat tempor ad laboris duis non eiusmod.</p>
     </section>
     <section>
-            {{#if isAuthenticated}}
-                {{>actions}}
-            {{/if}}
+        {{#if isAuthenticated}}
+        {{>actions}}
+        {{/if}}
 
-        
+
         <div class="theaters-container">
 
             {{#each data}}
-                {{>curPlay}}
+               {{>curPlay}}
             {{else}}
-                <h4>No plays yet...</h4>
+            <h4>No plays yet...</h4>
             {{/each}}
-            
+
         </div>
     </section>
 

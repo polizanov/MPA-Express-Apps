@@ -5,7 +5,9 @@
     <div class="info">
         <h4>{{title}}</h4>
         <div class="info-buttons">
-            <a class="btn details" href="/play/details/{{_id}}">Details</a>
+            {{#if isAuthenticated}}
+                <a class="btn details" href="/play/details/{{_id}}">Details</a>
+            {{/if}}
             <span class="likes">{{usersLiked.length}} likes</span>
         </div>
     </div>
