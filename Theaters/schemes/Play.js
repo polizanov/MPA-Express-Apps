@@ -5,15 +5,18 @@ const playSchema = mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        minLength: 1,
     },
     description: {
         type: String,
         required: true,
         maxLength: 50,
+        minLength: 1,
     },
     imageUrl: {
         type: String,
         required: true,
+        minLength: 1,
     },
     isPublic: {
         type: Boolean,

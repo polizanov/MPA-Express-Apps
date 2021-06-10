@@ -5,6 +5,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        minLength: 3,
+        validate: /^[a-zA-Z\d]+$/,
     },
     password: {
         type: String,

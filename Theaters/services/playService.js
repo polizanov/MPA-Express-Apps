@@ -1,4 +1,5 @@
 const Play = require('../schemes/Play');
+const { LETTERS_AND_DIGITS_PATTERN } = require("../config")
 
 function create(data, userId) {
     if (data.title == "" || data.description == "" || data.imageUrl == "") {
