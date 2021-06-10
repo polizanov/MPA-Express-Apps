@@ -14,7 +14,7 @@
             <div class="buttons">
                 {{#if data.isOwner}}
                     <a class="btn delete" href="">Delete</a>
-                    <a class="btn edit" href="">Edit</a>
+                    <a class="btn edit" href="/play/edit/{{data._id}}">Edit</a>
                 {{else}}
                     {{#if isLiked}}
                         <span class="liked">You have already liked this play!</span>

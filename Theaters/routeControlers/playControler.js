@@ -13,7 +13,6 @@ router.get("/create", (req, res, next) => {
 
 router.post("/create", async (req, res) => {
     try {
-        console.log(res.locals.user._id)
         await playService.create(req.body, res.locals.user._id)
         res.redirect("/");
     } catch (err) {
@@ -27,6 +26,24 @@ router.get("/details/:playId", async (req, res, next) => {
         res.render("play/details", { title: "Details", data });
     } catch (err){
         next();
+    }
+})
+
+router.get("/edit/:playId", async (req, res, next) => {
+    try {
+        let data = await playService.getById(req.params.playId, res.locals.user._id);
+        res.render("play/edit", { title: "Edit", data });
+    } catch (err){
+        next();
+    }
+})
+
+router.post("/edit/:playId", async (req, res) => {
+    try {
+        await playService.edit(req.params.playId, req.body)
+        res.redirect(`/play/details/${req.params.playId}`);
+    } catch (err) {
+        res.render("play/edit", { title: "Create", err })
     }
 })
 
