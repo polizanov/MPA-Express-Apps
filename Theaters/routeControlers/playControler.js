@@ -56,4 +56,13 @@ router.get("/delete/:playId", async (req, res, next) => {
     }
 })
 
+router.get("/like/:playId", async (req, res, next) => {
+    try {
+        await playService.like(req.params.playId, res.locals.user._id);
+        res.redirect(`/play/details/${req.params.playId}`);
+    } catch (err) {
+        next();
+    }
+})
+
 module.exports = router;

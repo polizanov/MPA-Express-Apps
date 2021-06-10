@@ -50,8 +50,6 @@ async function getById(id, userId) {
         .lean()
         .then(x => Object.assign(x, { isOwner: x.creator == userId }));
 
-    console.log(data)
-
     data.usersLiked.forEach(e => {
         if (e == userId) {
             data = Object.assign(data, { isLiked: true });
@@ -94,10 +92,18 @@ function deleteTeather(id) {
     return Play.deleteOne({ _id: id });
 }
 
+async function like(playId, userId){
+    let data = await Play.findOne({_id: playId});
+    data.usersLiked.push(userId);
+    return Play.updateOne({_id: playId}, data);
+}
+
+
 module.exports = {
     create,
     getAll,
     getById,
     edit,
-    deleteTeather
+    deleteTeather,
+    like
 }
