@@ -1,15 +1,21 @@
-<form action="/auth/register" method="POST">
-{{#if err}}
-        <span class="error">{{err.message}}</span>
-        <br>
-{{/if}}
-<label for="username">Username</label>
-        <input type="text" id="username" name="username">
+<main>
+        <form method="POST">
+                <h2>Register</h2>
+                <div class="on-dark">
+                        <label for="username">Username:</label>
+                        <input type="text" placeholder="Username" name="username">
+                </div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password">
+                <div class="on-dark">
+                        <label for="password">Password:</label>
+                        <input type="password" placeholder="********" name="password">
+                </div>
 
-        <label for="repeatPassword">Re-Password</label>
-        <input type="password" id="repeatPassword" name="repeatPassword">
-        <input type="submit" value="Register">
-</form>
+                <div class="on-dark">
+                        <label for="repeatPassword">Repeat Password:</label>
+                        <input type="password" placeholder="********" name="repeatPassword">
+                </div>
+
+                <button class="btn" type="submit">Register</button>
+        </form>
+</main>

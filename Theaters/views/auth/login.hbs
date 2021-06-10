@@ -1,13 +1,15 @@
-<form action="/auth/login" method="POST">
-{{#if err}}
-        <span class="error">{{err.message}}</span>
-        <br>
-{{/if}}
-<label for="username">Username</label>
-        <input type="text" id="username" name="username">
+<main>
+        <form method="POST">
+                <h2>Login</h2>
+                <div>
+                        <label for="username">Username:</label>
+                        <input type="text" placeholder="Username" name="username">
+                </div>
+                <div>
+                        <label for="password">Password:</label>
+                        <input type="password" placeholder="Password" name="password">
+                </div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password">
-
-        <input type="submit" value="Login">
-</form>
+                <button class="btn" type="submit">Login</button>
+        </form>
+</main>
