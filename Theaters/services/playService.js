@@ -41,12 +41,28 @@ function getAll(userId = "") {
             } else {
                 return x.isPublic == true;
             }
-        })
-    )
+        }))
 
+}
+
+async function getById(id, userId) {
+    let data = await Play.findOne({ _id: id })
+        .lean()
+        .then(x => Object.assign(x, { isOwner: x.creator == userId }));
+
+    console.log(data)
+
+    data.usersLiked.forEach(e => {
+        if (e == userId) {
+            data = Object.assign(data, { isLiked: true });
+        }
+    });
+
+    return data;
 }
 
 module.exports = {
     create,
     getAll,
+    getById,
 }

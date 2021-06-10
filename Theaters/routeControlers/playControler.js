@@ -21,4 +21,13 @@ router.post("/create", async (req, res) => {
     }
 })
 
+router.get("/details/:playId", async (req, res, next) => {
+    try {
+        let data = await playService.getById(req.params.playId, res.locals.user._id);
+        res.render("play/details", { title: "Details", data });
+    } catch (err){
+        next();
+    }
+})
+
 module.exports = router;
