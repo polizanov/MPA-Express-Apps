@@ -12,14 +12,9 @@ router.get("/", async (req, res, next) => {
             data = await playServices.getAllForGuest();
         }
         res.render("home/home", { title: "Home Page", data});
-    } catch (err) {
+    } catch {
         next()
-        console.log(err)
     }
-})
-
-router.get("/about", (req, res) => {
-    res.send("About");
 })
 
 module.exports = router;
