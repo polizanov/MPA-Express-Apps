@@ -68,7 +68,6 @@ router.get("/like/:playId", async (req, res, next) => {
 router.get("/sortbylikes", async (req, res, next) => {
     try {
         let data = await playService.sortByLikes(res.locals.user._id, res.locals.isAuthenticated)
-        console.log(data)
         res.render("home/home", { title: "Home", data })
     } catch {
         next();

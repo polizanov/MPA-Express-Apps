@@ -54,7 +54,7 @@ async function login(loginData){
         throw { message: "Incorect username and password!" }
     }
 
-    const match = bcrypt.compare(loginData.password.trim(), user.password)
+    const match = await bcrypt.compare(loginData.password.trim(), user.password)
 
     if(!match){
         throw { message: "Incorect username and password!" }
