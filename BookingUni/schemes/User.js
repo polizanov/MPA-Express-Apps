@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        validate: /^[a-zA-Z\d]+$/
+        validate: /^[a-zA-Z\d@\.]+$/
     },
     username: {
         type: String,

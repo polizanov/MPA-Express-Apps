@@ -3,23 +3,23 @@ const User = require("../schemes/User");
 
 async function create(data, userId) {
     if (data.name == "" || data.city == "" || data.freeRooms == "" || data.imageUrl == "") {
-        throw { message: "All fields are requred" }
+        throw { message: "All fields are requred", data }
     }
 
     if (data.name < 4) {
-        throw { message: "Name should be at least 4 characters" }
+        throw { message: "Name should be at least 4 characters", data }
     }
 
     if (data.city < 3) {
-        throw { message: "City should be at least 3 characters" }
+        throw { message: "City should be at least 3 characters", data }
     }
 
     if (!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")) {
-        throw { message: "ImageUrl should be starts with http or https" }
+        throw { message: "ImageUrl should be starts with http or https", data }
     }
 
     if (Number(data.freeRooms) < 1 || Number(data.freeRooms) > 100) {
-        throw { message: "Free rooms should be between 1 and 100" };
+        throw { message: "Free rooms should be between 1 and 100", data };
     }
 
     let dataObj = {
@@ -55,29 +55,41 @@ async function getHotelById(id, userId) {
     return data;
 }
 
-function deleteHotel(id) {
+async function deleteHotel(id, userId) {
+    let hotel = await Hotel.findOne({ _id: id });
+
+    if (hotel.ownerId !== userId) {
+        throw { message: "Unothorized" }
+    }
+
     return Hotel.deleteOne({ _id: id });
 }
 
-function editHotel(data, id) {
+async function editHotel(data, id, userId) {
+    let hotelInfo = await Hotel.findOne({ _id: id });
+
+    if (hotelInfo.ownerId !== userId) {
+        throw { message: "Unothorised", data }
+    }
+
     if (data.name == "" || data.city == "" || data.freeRooms == "" || data.imageUrl == "") {
-        throw { message: "All fields are requred" }
+        throw { message: "All fields are requred", data }
     }
 
     if (data.name < 4) {
-        throw { message: "Name should be at least 4 characters" }
+        throw { message: "Name should be at least 4 characters", data }
     }
 
     if (data.city < 3) {
-        throw { message: "City should be at least 3 characters" }
+        throw { message: "City should be at least 3 characters", data }
     }
 
     if (!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")) {
-        throw { message: "ImageUrl should be starts with http or https" }
+        throw { message: "ImageUrl should be starts with http or https", data }
     }
 
     if (Number(data.freeRooms) < 1 || Number(data.freeRooms) > 100) {
-        throw { message: "Free rooms should be between 1 and 100" };
+        throw { message: "Free rooms should be between 1 and 100", data };
     }
 
     let dataObj = {

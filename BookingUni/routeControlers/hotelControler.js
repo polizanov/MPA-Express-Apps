@@ -1,19 +1,23 @@
 const { Router } = require("express");
 const router = Router();
 
-const hotelService = require("../services/hotelServices")
+const hotelService = require("../services/hotelServices");
+
 
 router.get("/create", (req, res) => {
     res.render("crud/create", { title: "Create" })
 })
 
 router.post("/create", async (req, res) => {
-    console.log(res.locals.user._id)
     try {
         await hotelService.create(req.body, res.locals.user._id)
         res.redirect("/")
     } catch (err) {
-        res.render("crud/create", { title: "Create", err })
+        res.render("crud/create", {
+            title: "Create",
+            err,
+            data: err.data
+        })
     }
 })
 
@@ -37,19 +41,23 @@ router.get("/edit/:hotelId", async (req, res, next) => {
 
 router.post("/edit/:hotelId", async (req, res) => {
     try {
-        await hotelService.editHotel(req.body, req.params.hotelId)
+        await hotelService.editHotel(req.body, req.params.hotelId, res.locals.user._id)
         res.redirect(`/hotel/details/${req.params.hotelId}`);
     } catch (err) {
-        console.log(err)
-        res.render("crud/edit", { title: "Edit", err })
+        res.render("crud/edit", { 
+            title: "Edit", 
+            err,
+            data: err.data
+         })
     }
 })
 
 router.get("/delete/:hotelId", async (req, res, next) => {
     try {
-        await hotelService.deleteHotel(req.params.hotelId);
+        await hotelService.deleteHotel(req.params.hotelId, res.locals.user._id);
         res.redirect("/");
-    } catch {
+    } catch (err) {
+        console.log(console.log(err))
         next()
     }
 })
@@ -66,7 +74,7 @@ router.get("/book/:hotelId", async (req, res, next) => {
 router.get("/profile/:profileId", async (req, res, next) => {
     try {
         let data = await hotelService.getProfile(res.locals.user._id);
-        res.render("home/profile", {title: "Profile", data});
+        res.render("home/profile", { title: "Profile", data });
     } catch (err) {
         next()
     }
