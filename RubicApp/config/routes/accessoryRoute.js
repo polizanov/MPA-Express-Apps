@@ -25,16 +25,16 @@ router.get("/attach/:id", forAutheticated, async (req, res) => {
         let accessoryArr = await getAll(cubeDetails.accessories);
         res.render("attachAccessory", { title: "Attach a new accessory", cubeDetails, accessoryArr });
     } catch (err) {
-        res.status(500)
+        res.status(500);
     }
 })
 
 router.post("/attach/:id", forAutheticated, async (req, res) => {
     try {
         await attachAccessory(req.params.id, req.body.accessory);
-        res.redirect("/details/" + req.params.id)
+        res.redirect("/details/" + req.params.id);
     } catch (err) {
-        res.status(500)
+        res.status(500);
     }
 
 })

@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     let token = req.cookies[USER_SESSION];
     if (token) {
         try {
-            await validateUser(token)
+            await validateUser(token);
         } catch (err) {
             res.clearCookie(USER_SESSION);
         }

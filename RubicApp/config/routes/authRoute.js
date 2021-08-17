@@ -16,7 +16,7 @@ router.post("/login", forGuest, async (req, res) => {
         let token = await login(req.body);
         res.cookie(USER_SESSION, token);
     } catch (err) {
-        res.render("login", { err })
+        res.render("login", { err });
         return;
     }
     res.redirect("/");
@@ -28,9 +28,9 @@ router.get("/register", forGuest, (req, res) => {
 
 router.post("/register", forGuest, async (req, res) => {
     try {
-        await register(req.body)
+        await register(req.body);
     } catch (err) {
-        res.render("register", { err })
+        res.render("register", { err });
         return;
     }
     res.redirect("/auth/login");
