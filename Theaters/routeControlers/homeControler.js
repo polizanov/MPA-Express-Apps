@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
         }
         res.render("home/home", { title: "Home Page", data});
     } catch {
-        next()
+        next();
     }
 })
 

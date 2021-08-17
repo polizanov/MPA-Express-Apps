@@ -1,21 +1,20 @@
 const Play = require('../schemes/Play');
 
-
 function create(data, userId) {
     if (data.title == "" || data.description == "" || data.imageUrl == "") {
-        throw { message: "All fields are requred" }
+        throw { message: "All fields are requred", data };
     }
 
     if (data.title < 4) {
-        throw { message: "Title should be at least 4 characters" }
+        throw { message: "Title should be at least 4 characters", data };
     }
 
     if (data.description < 4) {
-        throw { message: "Description should be at least 4 characters" }
+        throw { message: "Description should be at least 4 characters", data };
     }
 
     if (!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")) {
-        throw { message: "ImageUrl should be starts with http or https" }
+        throw { message: "ImageUrl should be starts with http or https", data };
     }
 
     let isPublic = data.isPublic == "on";
@@ -31,7 +30,7 @@ function create(data, userId) {
 
 
     let playObj = new Play(dataObj);
-    return playObj.save()
+    return playObj.save();
 }
 
 function getAll(userId = "", isAuthenticated) {
@@ -60,21 +59,27 @@ async function getById(id, userId) {
     return data;
 }
 
-function edit(id, data) {
+async function edit(id, data, user) {
+    let play = await Play.findOne({_id: id});
+
+    if(play.creator.toString() !== user) {
+        throw { message: "Unothorised!", data };
+    }
+
     if (data.title == "" || data.description == "" || data.imageUrl == "") {
-        throw { message: "All fields are requred" }
+        throw { message: "All fields are requred", data };
     }
 
     if (data.title < 4) {
-        throw { message: "Title should be at least 4 characters" }
+        throw { message: "Title should be at least 4 characters", data };
     }
 
     if (data.description < 4) {
-        throw { message: "Description should be at least 4 characters" }
+        throw { message: "Description should be at least 4 characters", data };
     }
 
     if (!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")) {
-        throw { message: "ImageUrl should be starts with http or https" }
+        throw { message: "ImageUrl should be starts with http or https", data };
     }
 
     let isPublic = data.isPublic == "on";
@@ -86,10 +91,16 @@ function edit(id, data) {
         isPublic,
     }
 
-    return Play.updateOne({ _id: id }, dataObj)
+    return Play.updateOne({ _id: id }, dataObj);
 }
 
-function deleteTeather(id) {
+async function deleteTeather(id, user) {
+    let play = await Play.findOne({_id: id});
+
+    if(play.creator.toString() !== user) {
+        throw { message: "Unothorised!"};
+    }
+
     return Play.deleteOne({ _id: id });
 }
 
@@ -105,7 +116,7 @@ async function getAllForGuest() {
     data = data
         .sort((a, b) => b.usersLiked.length - a.usersLiked.length)
         .filter(x => x.isPublic == true)
-        .slice(0, 3)
+        .slice(0, 3);
 
     return data
 }
