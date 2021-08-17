@@ -3,5 +3,5 @@ module.exports = (err, req, res, next) => {
     let status = err.status || 500;
 
     
-    res.render("err/error", { message, status })
+    res.render("err/error", { message, status });
 }

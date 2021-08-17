@@ -3,7 +3,7 @@ const router = Router();
 
 const isAuth = require("../middlewares/isAuth");
 
-const articleService = require("../services/articleService")
+const articleService = require("../services/articleService");
 
 router.get("/all", async (req, res, next) => {
     try {
@@ -55,15 +55,17 @@ router.post("/edit/:articleId", isAuth, async (req, res) => {
         await articleService.editArticle(req.params.articleId, req.body);
         res.redirect(`/article/details/${req.params.articleId}`);
     } catch (err) {
-        res.render("article/edit", { title: "Edit", err })
+        console.log(err.data)
+        res.render("article/edit", { title: "Edit", err, data: err.data })
     }
 })
 
 router.get("/delete/:articleId", isAuth, async (req, res, next) => {
     try {
-        await articleService.deleteArticle(req.params.articleId);
+        await articleService.deleteArticle(req.params.articleId, res.locals.user._id);
         res.redirect(`/`);
-    } catch {
+    } catch (err) {
+        console.log(err)
         next()
     }
 })

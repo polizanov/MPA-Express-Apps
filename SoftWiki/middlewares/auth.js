@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
     next()
 
     async function check(token) {
-        let decoded = jwt.verify(token, JWT_LOGIN_SECRET)
+        let decoded = jwt.verify(token, JWT_LOGIN_SECRET);
         let isFind = await findUserWithId(decoded._id);
     
         if (isFind) {

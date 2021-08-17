@@ -10,9 +10,9 @@
         <div class="spacer">
             <form method="POST">
                 <label>Article title</label>
-                <input type="text" class="title" name="title">
+                <input type="text" class="title" name="title" value={{err.data.title}}>
                 <label>Content</label>
-                <textarea name="description"></textarea>
+                <textarea name="description">{{err.data.description}}</textarea>
                 <input type="submit" value="Submit">
             </form>
         </div>

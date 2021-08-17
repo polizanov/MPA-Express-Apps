@@ -8,7 +8,6 @@ router.get("/", async (req, res, next) => {
         let data = await articleService.getLeastThree();
         res.render("home/home", { title: "Home Page", data });
     } catch (err){
-        console.log(err)
         next();
     }
 })
