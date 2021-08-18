@@ -37,7 +37,7 @@ router.get("/enroll/:courceId", async (req, res, next) => {
 
 router.get("/delete/:courceId", async (req, res, next) => {
     try {
-        await courceService.deleteCource(req.params.courceId);
+        await courceService.deleteCource(req.params.courceId, res.locals.user._id);
         res.redirect("/");
     } catch (err) {
         next();
@@ -49,17 +49,17 @@ router.get("/update/:courceId", async (req, res) => {
         let data = await courceService.getOneById(req.params.courceId, res.locals.user._id);
         res.render("cource/edit", {title: "Edit", data});
     } catch (err) {
+        console.log(err)
         res.render("cource/edit", { err })
     }
 })
 
 router.post("/update/:courceId", async (req, res) => {
     try {
-       console.log(req.body);
-       await courceService.update(req.body, req.params.courceId)
+       await courceService.update(req.body, req.params.courceId, res.locals.user._id)
        res.redirect(`/course/details/${req.params.courceId}`)
     } catch (err) {
-        res.render("cource/edit", { err })
+        res.render("cource/edit", { err, data: err.data })
     }
 })
 

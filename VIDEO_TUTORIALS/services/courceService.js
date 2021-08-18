@@ -2,19 +2,19 @@ const Cource = require("../schemes/Cource");
 
 function create(data, userId) {
     if (data.title == "" || data.description == "" || data.imageUrl == "") {
-        throw { message: "All fields are requred" }
+        throw { message: "All fields are requred", data }
     }
 
-    if(data.title < 4){
-        throw { message: "Title should be at least 4 characters" }
+    if (data.title < 4) {
+        throw { message: "Title should be at least 4 characters", data }
     }
 
-    if(data.description < 4){
-        throw { message: "Description should be at least 20 characters" }
+    if (data.description < 4) {
+        throw { message: "Description should be at least 20 characters", data }
     }
 
-    if(!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")){
-        throw { message: "ImageUrl should be starts with http or https" }
+    if (!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")) {
+        throw { message: "ImageUrl should be starts with http or https", data }
     }
 
     let isPublic = data.isPublic == "on";
@@ -33,21 +33,27 @@ function create(data, userId) {
     return courceObj.save()
 }
 
-async function update(data, id){
+async function update(data, id, userId) {
+    let cource = await Cource.findOne({ _id: id });
+
+    if (cource.ownerId.toString() !== userId) {
+        throw { message: "Unothorised!", data }
+    }
+
     if (data.title == "" || data.description == "" || data.imageUrl == "") {
-        throw { message: "All fields are requred" }
+        throw { message: "All fields are requred", data }
     }
 
-    if(data.title < 4){
-        throw { message: "Title should be at least 4 characters" }
+    if (data.title < 4) {
+        throw { message: "Title should be at least 4 characters", data }
     }
 
-    if(data.description < 4){
-        throw { message: "Description should be at least 20 characters" }
+    if (data.description < 4) {
+        throw { message: "Description should be at least 20 characters", data }
     }
 
-    if(!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")){
-        throw { message: "ImageUrl should be starts with http or https" }
+    if (!data.imageUrl.startsWith("http") || !data.imageUrl.startsWith("https")) {
+        throw { message: "ImageUrl should be starts with http or https", data }
     }
 
 
@@ -60,7 +66,7 @@ async function update(data, id){
         isPublic,
     }
 
-    return Cource.updateOne({_id: id}, dataObj);
+    return Cource.updateOne({ _id: id }, dataObj);
 }
 
 async function getAllCourcesForUsers(userId) {
@@ -74,7 +80,7 @@ async function getAllCourcesForUsers(userId) {
         }));
 }
 
-async function searchCource(userId, value){
+async function searchCource(userId, value) {
     return Cource.find({}).sort({ createdAt: -1 }).lean()
         .then(x => x.filter((e) => {
             if (e.ownerId == userId) {
@@ -83,10 +89,10 @@ async function searchCource(userId, value){
                 return e.isPublic == true
             }
         })
-        .filter((x) => x.title.toLocaleLowerCase().includes(value.toLocaleLowerCase())));
+            .filter((x) => x.title.toLocaleLowerCase().includes(value.toLocaleLowerCase())));
 }
 
-async function getTopThree(){
+async function getTopThree() {
     return Cource.find({}).sort({ createdAt: -1 }).lean()
         .then(x => x.filter((e) => e.isPublic == true))
 }
@@ -104,14 +110,20 @@ async function getOneById(id, userId) {
     return data
 }
 
-async function enrollUser(courceId, userId){
+async function enrollUser(courceId, userId) {
     let data = await Cource.findOne({ _id: courceId });
     data.usersEnroled.push(userId);
     return Cource.replaceOne({ _id: courceId }, data);
 }
 
-function deleteCource(id) {
-    return Cource.deleteOne({_id: id});
+async function deleteCource(id, user) {
+    let cource = await Cource.findOne({ _id: id });
+
+    if (cource.ownerId.toString() !== user) {
+        throw { message: "Unothorised!" }
+    }
+
+    return Cource.deleteOne({ _id: id });
 }
 
 module.exports = {
@@ -121,6 +133,6 @@ module.exports = {
     enrollUser,
     deleteCource,
     update,
-    getTopThree, 
+    getTopThree,
     searchCource
 }
