@@ -30,7 +30,6 @@ router.get("/", (req, res, next) => {
                     .sort((a, b) => b.usersEnroled.length - a.usersEnroled.length)
                     .slice(0, 4)
     
-                console.log(cources)
                 res.render("home/home", { title: "Home Page", cources });
             })
             .catch(err => console.log(err));
